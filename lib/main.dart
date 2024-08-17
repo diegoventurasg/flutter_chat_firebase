@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_firebase/auth/login_or_register.dart';
+import 'package:flutter_chat_firebase/themes/light_mode.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const LoginOrRegister(),
+      theme: lightMode,
     );
   }
 }
