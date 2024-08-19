@@ -26,7 +26,19 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void login() {}
+  void login() async {
+    final authService = AuthService();
+
+    try {
+      await authService.signInWithEmailPassword(_emailController.text, _pwController.text,);
+    } catch (e) {
+      showDialog(context: context, 
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        );
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

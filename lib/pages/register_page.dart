@@ -27,7 +27,25 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void register() {}
+  void register() {
+    final _auth = AuthService();
+
+    if (_pwController.text == _confirmPwController.text) {
+      try {
+        _auth.signUpWithEmailPassword(
+          _emailController.text,
+          _pwController.text,
+        );
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          );
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
