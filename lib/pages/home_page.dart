@@ -4,18 +4,24 @@ import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  void logout () {
-    final _authService = AuthService();
-    _auth.signOut();
+  void logout() {
+    final authService = AuthService();
+    authService.signOut();
   }
 
   @override
-  Widget build(BuuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home")),
-      actios: [
-        IconButton(onPressed: logout, icon Icon(Icons.logout)),
-      ],
+      appBar: AppBar(
+        title: const Text("Home"),
+        actions: [
+          IconButton(
+            onPressed: logout,
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
+      drawer: Drawer(),
     );
   }
 }

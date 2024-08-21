@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_firebase/auth/auth_service.dart';
 import 'package:flutter_chat_firebase/components/my_button.dart';
 import 'package:flutter_chat_firebase/components/my_textfield.dart';
 
@@ -26,16 +27,23 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void login() async {
+  void login(BuildContext context) async {
     final authService = AuthService();
 
     try {
-      await authService.signInWithEmailPassword(_emailController.text, _pwController.text,);
+      await authService.signInWithEmailPassword(
+        _emailController.text,
+        _pwController.text,
+      );
     } catch (e) {
-      showDialog(context: context, 
-        builder: (context) => AlertDialog(
-          title: Text(e.toString()),
-        );
+      _showSnackBar(e.toString());
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
       );
     }
   }
@@ -74,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 25),
             MyButton(
               text: "Login",
-              onTap: login,
+              onTap: () => login(context),
             ),
             const SizedBox(height: 25),
             Row(

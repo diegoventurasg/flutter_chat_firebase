@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_firebase/auth/auth_service.dart';
 import 'package:flutter_chat_firebase/components/my_button.dart';
 import 'package:flutter_chat_firebase/components/my_textfield.dart';
 
@@ -27,23 +28,28 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void register() {
-    final _auth = AuthService();
+  void register(BuildContext context) async {
+    final auth = AuthService();
 
     if (_pwController.text == _confirmPwController.text) {
       try {
-        _auth.signUpWithEmailPassword(
+        await auth.signUpWithEmailPassword(
           _emailController.text,
           _pwController.text,
         );
       } catch (e) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(e.toString()),
-          );
-        );
+        _showSnackBar(e.toString());
       }
+    } else {
+      _showSnackBar("Passwords don't match!");
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -87,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 25),
             MyButton(
               text: "Register",
-              onTap: register,
+              onTap: () => register(context),
             ),
             const SizedBox(height: 25),
             Row(
